@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # 投稿（Post）に関する標準的なURL（一覧、詳細、作成、編集、更新、削除）をすべて有効化
   resources :posts
+  resources :photos
 
   # アプリのトップページ（http://localhost:3000/）を一覧画面に設定
   root "posts#index"

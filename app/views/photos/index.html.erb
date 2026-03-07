@@ -1,0 +1,21 @@
+<h1>フォトアルバム</h1>
+
+<%= link_to "＋ 新しい写真を投稿する", new_photo_path, style: "display: inline-block; padding: 10px; background: #28a745; color: white; text-decoration: none; border-radius: 5px;" %>
+<hr>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
+  <% @photos.each do |photo| %>
+    <div style="border: 1px solid #ddd; padding: 10px; width: 300px; border-radius: 8px;">
+      <% if photo.image.attached? %>
+        <%# 画像を表示するタグ。widthを指定してサイズを調整します %>
+        <%= image_tag photo.image, style: "width: 100%; height: auto; border-radius: 4px;" %>
+      <% else %>
+        <p style="background: #eee; height: 150px; display: flex; align-items: center; justify-content: center;">画像なし</p>
+      <% end %>
+
+      <p><strong>日付:</strong> <%= photo.event_date %></p>
+      <p><%= photo.content %></p>
+      <p style="font-size: 0.8em; color: #666;">投稿者: <%= photo.user.email %></p>
+    </div>
+  <% end %>
+</div>
