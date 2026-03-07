@@ -1,2 +1,54 @@
-<h1>Users#new</h1>
-<p>Find me in app/views/users/new.html.erb</p>
+<h1>新規アカウント登録</h1>
+
+<%# エラーメッセージの表示エリア %>
+<% if @user.errors.any? %>
+  <div style="color: red; border: 1px solid red; padding: 10px; margin-bottom: 20px;">
+    <h3>入力内容にエラーがあります：</h3>
+    <ul>
+    <% @user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%# 登録フォーム本体 %>
+<%= form_with(model: @user, url: signup_path, local: true) do |f| %>
+  <div style="margin-bottom: 10px;">
+    <%= f.label :custom_id, "学籍番号（例：24l1234）" %><br>
+    <%= f.text_field :custom_id %>
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <%= f.label :email, "メールアドレス" %><br>
+    <%= f.email_field :email %>
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <%= f.label :nickname, "ニックネーム" %><br>
+    <%= f.text_field :nickname %>
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <%= f.label :theme_color, "テーマカラー（枠の色）" %><br>
+    <%# color_fieldを使うと、ブラウザ標準のカラーピッカー（色選択画面）が出ます！ %>
+    <%= f.color_field :theme_color, value: "#000000" %>
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <%= f.label :password, "パスワード" %><br>
+    <%= f.password_field :password %>
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <%= f.label :password_confirmation, "パスワード（確認用）" %><br>
+    <%= f.password_field :password_confirmation %>
+  </div>
+
+  <div>
+    <%= f.submit "登録する" %>
+  </div>
+<% end %>
+
+<br>
+<%= link_to "ログイン画面はこちら", login_path %>
