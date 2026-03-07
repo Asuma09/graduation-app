@@ -2,6 +2,8 @@ class User < ApplicationRecord
   # パスワードを暗号化して保存するためのRailsの便利機能
   has_secure_password
 
+  has_many :data, dependent: :destroy
+
   # 学籍番号 (custom_id) のルール設定
   validates :custom_id, 
             presence: true,   # 空っぽでの登録を禁止
