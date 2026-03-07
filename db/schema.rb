@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_07_083752) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_07_112935) do
   create_table "data", force: :cascade do |t|
     t.string "type"
     t.integer "user_id", null: false
@@ -29,6 +29,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_07_083752) do
     t.string "theme_color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email"
   end
 
   add_foreign_key "data", "users"
