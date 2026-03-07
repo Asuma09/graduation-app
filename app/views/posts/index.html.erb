@@ -1,11 +1,14 @@
 <h1>みんなの思い出一覧</h1>
 
-<%# @postsの中身を1つずつ取り出して表示するループ処理 %>
 <% @posts.each do |post| %>
   <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
     <p><strong>投稿者:</strong> <%= post.user.email %></p>
     <p><strong>日付:</strong> <%= post.event_date %></p>
     <p><strong>内容:</strong> <%= post.content %></p>
+    
+    <hr>
+    <%= link_to "編集する", edit_post_path(post) %> |
+    <%= link_to "削除する", post_path(post), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, style: "color: red;" %>
   </div>
 <% end %>
 <%= link_to "新しい思い出を投稿する", new_post_path %>

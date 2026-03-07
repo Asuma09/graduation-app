@@ -1,21 +1,20 @@
 Rails.application.routes.draw do
-  
- # 新規登録画面を表示する (GET)
-  get  "/signup", to: "users#new"
-  # 新規登録を実行してデータベースに保存する (POST)
-  post "/signup", to: "users#create"
-  
-  resources :posts, only: [ :index, :new, :create, :show ]
+  # 投稿（Post）に関する標準的なURL（一覧、詳細、作成、編集、更新、削除）をすべて有効化
+  resources :posts
 
-  # アプリのトップページ（http://localhost:3000/）にアクセスしたとき、
-  # 自動的にPostsのindex（一覧画面）が表示されるようにする設定
+  # アプリのトップページ（http://localhost:3000/）を一覧画面に設定
   root "posts#index"
-  # ログイン画面を表示する (GET)
+
+  # --- Aさんが担当しているログイン機能のルーティング ---
+  get    "/signup",  to: "users#new"
+  # ログイン画面を表示する（GET）
   get    "/login",   to: "sessions#new"
 
-  # ログインを実行する (POST)
+  # ログインを実行する（POST）
   post   "/login",   to: "sessions#create"
 
-  # ログアウトを実行する (DELETE)
+  # ログアウトを実行する（DELETE）
   delete "/logout",  to: "sessions#destroy"
+
+  # -----------------------------------------------
 end
