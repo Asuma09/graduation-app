@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   # --- Aさんが担当しているログイン機能のルーティング ---
   get    "/signup",  to: "users#new"
+  post   "/signup",  to: "users#create"
   # ログイン画面を表示する（GET）
   get    "/login",   to: "sessions#new"
 
