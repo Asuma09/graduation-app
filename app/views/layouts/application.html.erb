@@ -23,6 +23,32 @@
   </head>
 
   <body>
+    <%# --- ここからヘッダーを追加 --- %>
+    <header style="background-color: #f0f0f0; padding: 10px; margin-bottom: 20px;">
+      <% if current_user %>
+        <%# ログインしている時：ニックネームとログアウトボタンを表示 %>
+        <span style="font-weight: bold; color: <%= current_user.theme_color %>;">
+          <%= current_user.nickname %>さん、こんにちは！
+        </span>
+        <%# button_toを使うと、安全なログアウト処理(DELETE)を簡単に作れます %>
+        <%= button_to 'ログアウト', logout_path, method: :delete %>
+      <% else %>
+        <%# ログインしていない時：登録とログインへのリンクを表示 %>
+        <%= link_to '新規登録', signup_path %> |
+        <%= link_to 'ログイン', login_path %>
+      <% end %>
+    </header>
+    <%# --- ヘッダーここまで --- %>
+
+    <%# 成功・失敗のメッセージを全画面共通で表示させる設定 %>
+    <% if flash[:notice] %>
+      <p style="color: green;"><%= flash[:notice] %></p>
+    <% end %>
+    <% if flash[:alert] %>
+      <p style="color: red;"><%= flash[:alert] %></p>
+    <% end %>
+
+    <%# ここに各画面（新規登録やログイン画面など）の中身が差し込まれます %>
     <%= yield %>
   </body>
 </html>
