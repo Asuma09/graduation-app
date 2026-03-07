@@ -9,7 +9,8 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-    @post.user = User.first # 仮のユーザー
+
+    @post.user = current_user
 
     if @post.save
       redirect_to posts_path, notice: "思い出を投稿しました！"
