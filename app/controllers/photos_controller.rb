@@ -9,7 +9,7 @@ class PhotosController < ApplicationController
 
   def create
     @photo = Photo.new(photo_params)
-    @photo.user = User.first # 仮のユーザー
+    @photo.user = current_user
 
     if @photo.save
       redirect_to photos_path, notice: "写真をアップロードしました！"
