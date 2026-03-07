@@ -55,5 +55,17 @@
 
     <%# ここに各画面（新規登録やログイン画面など）の中身が差し込まれます %>
     <%= yield %>
+
+<body>
+    <%# ▼▼▼ ここから：卒業生限定の隠し機能 ▼▼▼ %>
+    <% if current_user && current_user.custom_id.start_with?("21", "22") %>
+      <div style="background: linear-gradient(45deg, #ffd700, #ffb6c1); color: #fff; text-align: center; padding: 10px; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        🌸 ご卒業おめでとうございます！素敵な思い出を振り返りましょう 🌸
+      </div>
+    <% end %>
+    <%# ▲▲▲ ここまで：卒業生限定の隠し機能 ▲▲▲ %>
+
+    <%# (この下には、元々あるフラッシュメッセージや <%= yield %> などのコードが続きます) %>
+
   </body>
 </html>
