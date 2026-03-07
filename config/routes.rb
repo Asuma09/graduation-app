@@ -1,14 +1,8 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # 投稿（Post）に関する標準的なURL（一覧、詳細、作成など）を自動で一気に設定する魔法のコード
+  resources :posts, only: [ :index, :new, :create, :show ]
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
-
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
-  # Defines the root path route ("/")
-  # root "posts#index"
+  # アプリのトップページ（http://localhost:3000/）にアクセスしたとき、
+  # 自動的にPostsのindex（一覧画面）が表示されるようにする設定
+  root "posts#index"
 end
