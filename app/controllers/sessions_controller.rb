@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+skip_before_action :require_login
   def new
     # ログイン画面を表示するだけなので、ここは空っぽでOKです
   end
