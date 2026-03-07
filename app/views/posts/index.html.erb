@@ -2,7 +2,7 @@
 
 <% @posts.each do |post| %>
   <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
-    <p><strong>投稿者:</strong> <%= post.user.email %></p>
+    <p><strong>投稿者:</strong> <%= post.user.nickname %></p>
     <p><strong>日付:</strong> <%= post.event_date %></p>
     <p><strong>内容:</strong> <%= post.content %></p>
     
