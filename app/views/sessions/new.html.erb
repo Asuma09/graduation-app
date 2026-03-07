@@ -1,0 +1,30 @@
+<h1>ログイン</h1>
+
+<%# flashメッセージ（ログイン失敗時のエラーなど）を表示する部分 %>
+<% if flash[:alert] %>
+  <div style="color: red;">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+<% if flash[:notice] %>
+  <div style="color: green;">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<%# ログインフォーム本体 %>
+<%= form_with(scope: :session, url: login_path, local: true) do |f| %>
+  <div>
+    <%= f.label :custom_id, "学籍番号（例：24l1234）" %><br>
+    <%= f.text_field :custom_id %>
+  </div>
+
+  <div>
+    <%= f.label :password, "パスワード" %><br>
+    <%= f.password_field :password %>
+  </div>
+
+  <div>
+    <%= f.submit "ログインする" %>
+  </div>
+<% end %>
