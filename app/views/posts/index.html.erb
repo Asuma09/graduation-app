@@ -1,2 +1,12 @@
-<h1>Posts#index</h1>
-<p>Find me in app/views/posts/index.html.erb</p>
+<h1>みんなの思い出一覧</h1>
+
+<%# @postsの中身を1つずつ取り出して表示するループ処理 %>
+<% @posts.each do |post| %>
+  <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
+    <p><strong>投稿者:</strong> <%= post.user.email %></p>
+    <p><strong>日付:</strong> <%= post.event_date %></p>
+    <p><strong>内容:</strong> <%= post.content %></p>
+  </div>
+<% end %>
+
+<br>
