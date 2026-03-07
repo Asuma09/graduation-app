@@ -1,0 +1,2 @@
+class Tag < Datum
+gitend
