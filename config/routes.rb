@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  # 投稿（Post）に関する標準的なURL（一覧、詳細、作成など）を自動で一気に設定する魔法のコード
+  
+ # 新規登録画面を表示する (GET)
+  get  "/signup", to: "users#new"
+  # 新規登録を実行してデータベースに保存する (POST)
+  post "/signup", to: "users#create"
+  
   resources :posts, only: [ :index, :new, :create, :show ]
 
   # アプリのトップページ（http://localhost:3000/）にアクセスしたとき、
