@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_action :require_login
   def new
     # 画面（ビュー）に渡すための、空っぽのユーザー情報を用意します
     @user = User.new
