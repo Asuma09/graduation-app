@@ -1,34 +1,26 @@
-<div class="auth-wrapper">
-  <div class="auth-card">
+<div style="max-width: 400px; margin: 0 auto; padding: 20px;">
+  <h2 style="text-align: center;">ログイン</h2>
+
+  <%# scope: :session をつけることで、送るデータを「session」という箱にまとめられます！ %>
+  <%= form_with(scope: :session, url: login_path, local: true) do |f| %>
     
-    <div class="auth-left">
-      <%= image_tag "welcome_illustration.jpg", class: "auth-illustration" %>
-      <h3 style="color: #555;">コミュニティへようこそ</h3>
+    <div style="margin-bottom: 15px;">
+      <%= f.label :custom_id, "学籍番号" %><br>
+      <%# email_field ではなく text_field に変更し、custom_id を送るようにします %>
+      <%= f.text_field :custom_id, style: "width: 100%; padding: 8px;" %>
     </div>
 
-    <div class="auth-right">
-      
-      <div class="auth-toggle-container">
-        <div class="auth-toggle">
-          <%= link_to "新規登録", signup_path %>
-          <%= link_to "ログイン", login_path, class: "active" %>
-        </div>
-      </div>
+    <div style="margin-bottom: 20px;">
+      <%= f.label :password, "パスワード" %><br>
+      <%= f.password_field :password, style: "width: 100%; padding: 8px;" %>
+    </div>
 
-      <%= form_with url: login_path, local: true do |f| %>
-        
-        <div class="auth-form-group">
-          <%= f.label :email, "ユーザーID / メールアドレス", class: "auth-label" %>
-          <%= f.email_field :email, class: "auth-input", placeholder: "IDまたはメールアドレスを入力" %>
-        </div>
+    <div style="text-align: center;">
+      <%= f.submit "ログインする", style: "padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;" %>
+    </div>
+  <% end %>
 
-        <div class="auth-form-group">
-          <%= f.label :password, "パスワード", class: "auth-label" %>
-          <%= f.password_field :password, class: "auth-input", placeholder: "パスワード" %>
-        </div>
-
-        <%= f.submit "ログイン", class: "auth-submit-btn" %>
-      <% end %>
-      </div>
+  <div style="text-align: center; margin-top: 20px;">
+    <%= link_to "新規登録はこちら", signup_path %>
   </div>
 </div>
