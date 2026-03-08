@@ -8,3 +8,123 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+/* --- ログイン・新規登録画面のおしゃれデザイン --- */
+
+/* 画面全体の背景（パステルグラデーション） */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top left, #fff0f5, transparent 50%),
+              radial-gradient(circle at bottom right, #f0f8ff, transparent 50%),
+              radial-gradient(circle at bottom left, #f5fffa, transparent 50%),
+              radial-gradient(circle at top right, #fffacd, transparent 50%),
+              #fefcf8;
+  padding: 20px;
+}
+
+/* 真ん中の白いカード */
+.auth-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  display: flex;
+  width: 900px;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 30px;
+  gap: 40px;
+}
+
+/* 左側（イラスト部分） */
+.auth-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-illustration {
+  width: 100%;
+  max-width: 350px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+/* 右側（フォーム部分） */
+.auth-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 上部の切り替えトグル */
+.auth-toggle-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 30px;
+}
+
+.auth-toggle {
+  background: #f0ebe1;
+  border-radius: 30px;
+  display: flex;
+  padding: 5px;
+}
+
+.auth-toggle a {
+  padding: 8px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #888;
+}
+
+.auth-toggle a.active {
+  background: #eb8428;
+  color: white;
+}
+
+/* 入力フォームのデザイン */
+.auth-form-group {
+  margin-bottom: 20px;
+}
+
+.auth-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: none;
+  background-color: #f4f2ec;
+  border-radius: 10px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+/* 送信ボタンのデザイン */
+.auth-submit-btn {
+  width: 100%;
+  padding: 15px;
+  background-color: #eb8428;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+
+.auth-submit-btn:hover {
+  background-color: #d1701e;
+}
