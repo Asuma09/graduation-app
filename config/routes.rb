@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   # 投稿（Post）に関する標準的なURL（一覧、詳細、作成、編集、更新、削除）をすべて有効化
   resources :posts
   resources :photos
+  # 卒業生へのサプライズメッセージ用の道（見る用: index、送る用: create）
+  resources :secret_messages, only: [:index, :create]
 
   post   "like/:id", to: "likes#create", as: "create_like"
   delete "like/:id", to: "likes#destroy", as: "destroy_like"

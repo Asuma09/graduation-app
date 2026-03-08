@@ -1,0 +1,24 @@
+<div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+  <h1 style="color: #ff1493; text-align: center;">🌸 秘密の部屋 🌸</h1>
+  <p style="text-align: center; font-size: 1.1em; color: #555;">在校生から卒業生の皆様へ、感謝のメッセージです。</p>
+
+  <div style="margin-top: 30px;">
+    <% if @secret_messages.any? %>
+      <% @secret_messages.each do |msg| %>
+        <div style="background-color: #fff0f5; padding: 20px; margin-bottom: 20px; border-radius: 10px; border-left: 6px solid #ff69b4; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+          <%# simple_formatを使うと、改行が綺麗に反映されます %>
+          <div style="font-size: 1.2em; line-height: 1.6;"><%= simple_format(msg.content) %></div>
+          <p style="text-align: right; color: #888; font-size: 0.9em; margin-top: 10px; border-top: 1px dashed #fbcce7; padding-top: 10px;">
+            送信者: <strong><%= msg.user.nickname %></strong> さんより
+          </p>
+        </div>
+      <% end %>
+    <% else %>
+      <p style="text-align: center; color: #999;">まだメッセージは届いていないようです……！</p>
+    <% end %>
+  </div>
+
+  <div style="text-align: center; margin-top: 40px;">
+    <%= link_to "トップページに戻る", root_path, style: "color: #ff69b4; text-decoration: underline;" %>
+  </div>
+</div>
