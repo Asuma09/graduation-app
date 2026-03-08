@@ -23,6 +23,22 @@
       <% else %>
         <%= button_to "🤍 #{photo.likes.count}", create_like_path(photo), method: :post, style: "background: none; border: 1px solid #ccc; border-radius: 15px; padding: 5px 10px; cursor: pointer; color: #666;" %>
       <% end %>
+      <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #eee;">
+      
+      <% photo.comments.each do |comment| %>
+        <p style="font-size: 0.85em; margin: 2px 0;">
+          <strong><%= comment.user.nickname %>:</strong> <%= comment.content %>
+        </p>
+      <% end %>
+
+      <div style="margin-top: 10px;">
+        <%= form_with url: create_comment_path(photo), local: true do |form| %>
+          <%= form.text_field :content, placeholder: "コメントを書く...", style: "width: 70%; padding: 5px;" %>
+          <%= form.submit "送信", style: "padding: 5px 10px;" %>
+        <% end %>
+      </div>
+      
+    </div>
     </div>
         <hr style="margin: 10px 0;">
         <div style="font-size: 0.9em;">

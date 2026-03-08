@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   post   "like/:id", to: "likes#create", as: "create_like"
   delete "like/:id", to: "likes#destroy", as: "destroy_like"
+  post "comments/:datum_id", to: "comments#create", as: "create_comment"
 
   # アプリのトップページ（http://localhost:3000/）を一覧画面に設定
   root "posts#index"
