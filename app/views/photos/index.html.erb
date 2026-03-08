@@ -17,6 +17,13 @@
       <p><%= photo.content %></p>
       <p style="font-size: 0.8em; color: #666;">投稿者: <%= photo.user.nickname %></p>
       <% if photo.user == current_user %>
+      <div style="margin: 10px 0;">
+      <% if photo.liked_by?(current_user) %>
+        <%= button_to "❤️ #{photo.likes.count}", destroy_like_path(photo), method: :delete, style: "background: none; border: 1px solid #ffcccc; border-radius: 15px; padding: 5px 10px; cursor: pointer; color: red;" %>
+      <% else %>
+        <%= button_to "🤍 #{photo.likes.count}", create_like_path(photo), method: :post, style: "background: none; border: 1px solid #ccc; border-radius: 15px; padding: 5px 10px; cursor: pointer; color: #666;" %>
+      <% end %>
+    </div>
         <hr style="margin: 10px 0;">
         <div style="font-size: 0.9em;">
           <%= link_to "編集する", edit_photo_path(photo) %> |

@@ -5,6 +5,15 @@
     <p><strong>投稿者:</strong> <%= post.user.nickname %></p>
     <p><strong>日付:</strong> <%= post.event_date %></p>
     <p><strong>内容:</strong> <%= post.content %></p>
+    <div style="margin: 10px 0;">
+      <% if post.liked_by?(current_user) %>
+        <%# すでにいいねしている場合は、色付きハートと「取り消し」の動き %>
+        <%= button_to "❤️ #{post.likes.count}", destroy_like_path(post), method: :delete, style: "background: none; border: 1px solid #ffcccc; border-radius: 15px; padding: 5px 10px; cursor: pointer; color: red;" %>
+      <% else %>
+        <%# まだいいねしていない場合は、白抜きハートと「いいねする」の動き %>
+        <%= button_to "🤍 #{post.likes.count}", create_like_path(post), method: :post, style: "background: none; border: 1px solid #ccc; border-radius: 15px; padding: 5px 10px; cursor: pointer; color: #666;" %>
+      <% end %>
+    </div>
     
     <hr>
    <% if post.user == current_user %>

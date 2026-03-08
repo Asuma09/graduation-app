@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   resources :posts
   resources :photos
 
+  post   "like/:id", to: "likes#create", as: "create_like"
+  delete "like/:id", to: "likes#destroy", as: "destroy_like"
+
   # アプリのトップページ（http://localhost:3000/）を一覧画面に設定
   root "posts#index"
 
