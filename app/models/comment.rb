@@ -1,2 +1,4 @@
-class Comment < Datum
+class Comment < ApplicationRecord
+  belongs_to :user
+  belongs_to :datum
 end

@@ -4,6 +4,7 @@ class User < ApplicationRecord
 
   has_many :data, dependent: :destroy
   has_many :likes, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   # 学籍番号 (custom_id) のルール設定
   validates :custom_id,

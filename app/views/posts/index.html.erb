@@ -14,6 +14,24 @@
         <%= button_to "🤍 #{post.likes.count}", create_like_path(post), method: :post, style: "background: none; border: 1px solid #ccc; border-radius: 15px; padding: 5px 10px; cursor: pointer; color: #666;" %>
       <% end %>
     </div>
+    <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #eee;">
+      
+      <%# --- 今まで書かれたコメントを一覧表示 --- %>
+      <% post.comments.each do |comment| %>
+        <p style="font-size: 0.85em; margin: 2px 0;">
+          <strong><%= comment.user.nickname %>:</strong> <%= comment.content %>
+        </p>
+      <% end %>
+
+      <%# --- 新しいコメントを書く入力枠 --- %>
+      <div style="margin-top: 10px;">
+        <%= form_with url: create_comment_path(post), local: true do |form| %>
+          <%= form.text_field :content, placeholder: "コメントを書く...", style: "width: 70%; padding: 5px;" %>
+          <%= form.submit "送信", style: "padding: 5px 10px;" %>
+        <% end %>
+      </div>
+      
+    </div>
     
     <hr>
    <% if post.user == current_user %>
