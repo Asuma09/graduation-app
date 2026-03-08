@@ -36,6 +36,7 @@ class SecretMessagesController < ApplicationController
   def ensure_undergraduate
     if current_user.custom_id.start_with?("21", "22")
       redirect_to posts_path, alert: "卒業生はメッセージを送信できません！"
+
     end
   end
 end
