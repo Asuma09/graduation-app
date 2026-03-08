@@ -5,8 +5,8 @@ gem "rails", "~> 8.0.4"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use sqlite3 as the database for Active Record in dev/test
+gem "sqlite3", ">= 2.1"
 group :development, :test do
-  gem "sqlite3", ">= 2.1"
 end
 
 # Use PostgreSQL and AWS S3 in production (Render)
