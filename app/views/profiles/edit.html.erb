@@ -1,0 +1,153 @@
+<div class="album-wrapper">
+  <div class="post-card" style="flex-direction: column; gap: 20px;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 10px;">
+      <%= link_to "←", :back, style: "font-size: 1.5em; text-decoration: none; color: #555; width: 40px;" %>
+      <h2 style="margin: 0; color: #333; flex: 1; text-align: center;">プロフィール設定</h2>
+      <div style="width: 40px;"></div>
+    </div>
+
+    <%= form_with model: @user, url: profile_path, local: true, id: "profile-form", html: { style: "display: flex; width: 100%; gap: 40px;" } do |f| %>
+      
+      <div class="post-left" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #ffffff; border-radius: 20px; border: 1px solid #f0ebe1; padding: 40px 20px;">
+        <label for="user_avatar" style="cursor: pointer; text-align: center;">
+          <div class="profile-avatar-ring">
+            <% if @user.avatar.attached? %>
+              <%= image_tag @user.avatar, class: "profile-avatar-img", id: "avatar-preview" %>
+            <% else %>
+              <div class="profile-avatar-img" id="avatar-preview" style="display: flex; align-items: center; justify-content: center; font-size: 4em; background: #f4b6c2;">👧🏻</div>
+            <% end %>
+          </div>
+          <div style="margin-top: 10px; font-weight: bold; color: #555;">
+            📷 画像を編集
+          </div>
+        </label>
+        <%= f.file_field :avatar, id: "user_avatar", accept: 'image/*', style: "display: none;", onchange: "previewAvatar(event)" %>
+      </div>
+
+      <div class="post-right" style="flex: 1;">
+        
+        <div class="auth-form-group">
+          <%= f.label :nickname, "表示名（ニックネーム）", class: "auth-label" %>
+          <%= f.text_field :nickname, class: "auth-input", placeholder: "ニックネームを入力" %>
+        </div>
+
+        <div class="auth-form-group">
+          <label class="auth-label">ユーザーID</label>
+          <div class="auth-input" style="background: #f0ebe1; color: #888; border: none;">
+            <%= @user.id %>
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <label class="auth-label">テーマカラー</label>
+          <div style="display: flex; gap: 10px;" id="theme-color-selector">
+            <% 
+              # アプリで利用可能な色の候補
+              colors = ["#2196f3", "#4caf50", "#eb8428", "#9c27b0", "#f44336"]
+              current_color = @user.theme_color || "#eb8428"
+            %>
+            
+            <% colors.each do |color| %>
+              <label style="cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                <%= f.radio_button :theme_color, color, style: "display: none;", class: "theme-color-radio" %>
+                <span class="color-circle" 
+                      data-color="<%= color %>" 
+                      style="background: <%= color %>; <%= current_color == color ? 'border: 3px solid #333; transform: scale(1.1);' : 'border: 2px solid transparent;' %>">
+                </span>
+              </label>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="profile-sample-post" id="sample-post-preview" style="border-color: <%= current_color %>;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+            <div style="width: 30px; height: 30px; border-radius: 50%; background: #f4b6c2; overflow:hidden;">
+              <% if @user.avatar.attached? %>
+                <%= image_tag @user.avatar, style: "width:100%; height:100%; object-fit:cover;", id: "sample-avatar-img" %>
+              <% else %>
+                <span style="display:flex; justify-content:center; align-items:center; height:100%;" id="sample-avatar-fallback">👧🏻</span>
+              <% end %>
+            </div>
+            <strong><span id="sample-nickname-preview"><%= @user.nickname.present? ? @user.nickname : "アスマ" %></span></strong>
+          </div>
+          <p style="font-size: 0.8em; margin: 0; color: #666;">サンプル投稿：お好きな色を選んでみてください。</p>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <%= f.submit "保存", class: "btn-submit", style: "width: 100%;" %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>
+
+<script>
+  function previewAvatar(event) {
+    const reader = new FileReader();
+    reader.onload = function() {
+      const output = document.getElementById('avatar-preview');
+      const sampleImg = document.getElementById('sample-avatar-img');
+      const sampleFallback = document.getElementById('sample-avatar-fallback');
+
+      if (output.tagName === 'IMG') {
+        output.src = reader.result;
+      } else {
+        output.innerHTML = `<img src="${reader.result}" class="profile-avatar-img" id="avatar-preview">`;
+      }
+
+      // サンプル投稿側のアイコンも連動して変える
+      if (sampleImg) {
+        sampleImg.src = reader.result;
+      } else if (sampleFallback) {
+        sampleFallback.outerHTML = `<img src="${reader.result}" style="width:100%; height:100%; object-fit:cover;" id="sample-avatar-img">`;
+      }
+    }
+    if(event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  document.addEventListener('turbo:load', function() {
+    // テーマカラー選択のリアルタイム反映
+    const colorRadios = document.querySelectorAll('.theme-color-radio');
+    const colorCircles = document.querySelectorAll('.color-circle');
+    const samplePreview = document.getElementById('sample-post-preview');
+
+    colorRadios.forEach(radio => {
+      radio.addEventListener('change', function() {
+        // 全ての丸の枠線を一旦リセット
+        colorCircles.forEach(c => {
+          c.style.border = '2px solid transparent';
+          c.style.transform = 'scale(1)';
+        });
+
+        // 選ばれた色に該当する丸の枠線を強調する
+        if (this.checked) {
+          const selectedColor = this.value;
+          const targetCircle = document.querySelector(`.color-circle[data-color="${selectedColor}"]`);
+          if (targetCircle) {
+            targetCircle.style.border = '3px solid #333';
+            targetCircle.style.transform = 'scale(1.1)';
+          }
+
+          // サンプル投稿の枠線の色を変える
+          if (samplePreview) {
+            samplePreview.style.borderColor = selectedColor;
+          }
+        }
+      });
+    });
+
+    // ニックネーム入力のリアルタイムプレビュー
+    const nicknameInput = document.getElementById('user_nickname');
+    const nicknamePreview = document.getElementById('sample-nickname-preview');
+    if (nicknameInput && nicknamePreview) {
+      nicknameInput.addEventListener('input', function() {
+        nicknamePreview.textContent = this.value.trim() !== "" ? this.value : "アスマ";
+      });
+    }
+  });
+
+</script>

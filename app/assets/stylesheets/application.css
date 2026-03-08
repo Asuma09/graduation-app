@@ -1,26 +1,13 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
-/* --- ログイン・新規登録画面のおしゃれデザイン --- */
-
-/* 画面全体の背景（パステルグラデーション） */
 .auth-wrapper {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: radial-gradient(circle at top left, #fff0f5, transparent 50%),
-              radial-gradient(circle at bottom right, #f0f8ff, transparent 50%),
-              radial-gradient(circle at bottom left, #f5fffa, transparent 50%),
-              radial-gradient(circle at top right, #fffacd, transparent 50%),
-              #fefcf8;
+    radial-gradient(circle at bottom right, #f0f8ff, transparent 50%),
+    radial-gradient(circle at bottom left, #f5fffa, transparent 50%),
+    radial-gradient(circle at top right, #fffacd, transparent 50%),
+    #fefcf8;
   padding: 20px;
 }
 
@@ -127,4 +114,556 @@
 
 .auth-submit-btn:hover {
   background-color: #d1701e;
+}
+
+/* --- アルバム一覧（写真一覧）のおしゃれデザイン --- */
+
+.album-wrapper {
+  min-height: 100vh;
+  /* ログイン画面と同じパステル背景 */
+  background: radial-gradient(circle at top left, #fff0f5, transparent 50%),
+    radial-gradient(circle at bottom right, #f0f8ff, transparent 50%),
+    radial-gradient(circle at bottom left, #f5fffa, transparent 50%),
+    radial-gradient(circle at top right, #fffacd, transparent 50%),
+    #fefcf8;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.album-container {
+  background: #fdfaf6;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 1000px;
+  padding: 30px;
+  border: 3px solid #f0ebe1;
+}
+
+/* ヘッダー部分（上のボタンや検索窓） */
+.album-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-orange {
+  background-color: #eb8428;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(235, 132, 40, 0.2);
+}
+
+.search-mock {
+  background: white;
+  border: 2px solid #eee;
+  padding: 8px 20px;
+  border-radius: 30px;
+  color: #999;
+  width: 300px;
+  text-align: center;
+}
+
+.btn-white {
+  background-color: white;
+  color: #333;
+  padding: 8px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  border: 2px solid #eee;
+}
+
+/* タブ部分 */
+.album-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.tab-active {
+  background: #e6e0d5;
+  color: #333;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.tab-inactive {
+  background: transparent;
+  color: #888;
+  padding: 5px 15px;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+/* 写真を並べるグリッド（格子） */
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* 写真カード1枚分 */
+.album-card {
+  background: white;
+  border-radius: 10px;
+  border: 2px solid #f0ebe1;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+}
+
+.album-image-wrapper {
+  height: 200px;
+  width: 100%;
+  background: #f4f2ec;
+  overflow: hidden;
+}
+
+.album-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* 画像を綺麗にトリミングしてはめ込む魔法 */
+}
+
+.album-info {
+  padding: 15px;
+}
+
+.album-title {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #333;
+  margin: 0 0 10px 0;
+  text-align: center;
+}
+
+/* --- 新規アルバム作成（投稿）画面のおしゃれデザイン --- */
+
+.post-card {
+  background: #fdfaf6;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  display: flex;
+  width: 900px;
+  max-width: 95%;
+  /* 画面幅に合わせて調整 */
+  margin: 40px auto;
+  /* 👈 上下に余白を作り、左右中央に配置 */
+  padding: 40px;
+  gap: 50px;
+  /* 👈 左右のエリアの間隔を広げる */
+  border: 3px solid #f0ebe1;
+}
+
+/* 左側：プレビューエリア */
+.post-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-preview-label {
+  background: #f4f2ec;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  color: #888;
+  transition: 0.3s;
+}
+
+.post-preview-label:hover {
+  background: #ebe8e0;
+}
+
+/* 右側：入力フォームエリア */
+.post-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-col {
+  flex: 1;
+}
+
+.btn-cancel {
+  background-color: #f0ebe1;
+  color: #555;
+  padding: 12px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  display: inline-block;
+}
+
+.btn-submit {
+  background-color: #eb8428;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 30px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  flex: 1;
+  box-shadow: 0 4px 6px rgba(235, 132, 40, 0.2);
+}
+
+/* 飾り用のテーマカラー丸 */
+.color-circle {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* --- ドロップダウンメニューのデザイン --- */
+
+.menu-container {
+  position: relative;
+  /* メニューの基準位置にする魔法 */
+}
+
+/* ポップアップするメニューの枠 */
+.dropdown-popup {
+  display: none;
+  /* 初期状態は非表示 */
+  position: absolute;
+  top: 120%;
+  /* ボタンの少し下に配置 */
+  right: 0;
+  background: #fdfaf6;
+  border: 2px solid #f0ebe1;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 240px;
+  z-index: 1000;
+  padding: 15px;
+}
+
+/* ユーザー情報部分 */
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.dropdown-avatar {
+  background: #f4b6c2;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+}
+
+.dropdown-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-id {
+  font-size: 0.8em;
+  color: #888;
+}
+
+.user-name {
+  font-weight: bold;
+  color: #333;
+  font-size: 1.1em;
+}
+
+.dropdown-divider {
+  border: none;
+  border-top: 2px dashed #eee;
+  margin: 10px 0;
+}
+
+/* メニューのリンクたち */
+.dropdown-item {
+  display: block;
+  padding: 10px 15px;
+  color: #555;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background 0.2s;
+  margin-bottom: 5px;
+}
+
+.dropdown-item:hover {
+  background: #f0ebe1;
+}
+
+/* --- プロフィール設定画面のデザイン --- */
+
+/* 虹色のリングの魔法 */
+.profile-avatar-ring {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  padding: 8px;
+  /* 虹色グラデーション */
+  background: conic-gradient(#f44336, #ff9800, #4caf50, #2196f3, #9c27b0, #f44336);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.profile-avatar-ring:hover {
+  transform: scale(1.05);
+}
+
+/* 実際のアイコン画像 */
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: white;
+  border: 4px solid white;
+  /* 内側の白いフチ */
+}
+
+/* サンプル投稿プレビューの枠 */
+.profile-sample-post {
+  border: 2px solid #eb8428;
+  /* テーマカラーを反映（モック） */
+  border-radius: 12px;
+  padding: 15px;
+  background: white;
+  margin-top: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+
+/* --- 文章一覧：スクラップブック・ボード --- */
+
+.history-wrapper {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: radial-gradient(circle at top left, #fff0f5, transparent 50%),
+    radial-gradient(circle at bottom right, #f0f8ff, transparent 50%),
+    radial-gradient(circle at bottom left, #f5fffa, transparent 50%),
+    radial-gradient(circle at top right, #fffacd, transparent 50%),
+    #fefcf8;
+}
+
+.scrapbook-container {
+  background: rgba(253, 250, 246, 0.9);
+  border-radius: 40px;
+  border: 5px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+  /* より柔らかいシャドウ */
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 50px;
+  position: relative;
+  min-height: 700px;
+  backdrop-filter: blur(10px);
+  /* すりガラス効果 */
+}
+
+/* 画像や長文テキストのサイズに適応するピンタレスト風（Masonry）設定 */
+.scrapbook-grid {
+  column-count: 3;
+  column-gap: 30px;
+  width: 100%;
+}
+
+/* カードの基本デザイン */
+.scrapbook-card {
+  background: #ffffff;
+  border: 1px solid #f0ebe1;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  break-inside: avoid;
+  /* 要素が列をまたぐのを防ぐ */
+  margin-bottom: 30px;
+  /* 要素同士の縦の余白 */
+  overflow-wrap: anywhere;
+  /* 長過ぎる単語によるはみ出しを防ぐ */
+  word-break: break-word;
+}
+
+.scrapbook-card:hover {
+  transform: translateY(-5px) rotate(-1deg) scale(1.02);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  /* 浮き上がるシャドウ */
+  z-index: 10;
+  border-color: #e0dbd1;
+}
+
+
+/* 左下の更新ボタン */
+.btn-refresh {
+  position: absolute;
+  bottom: 30px;
+  left: 40px;
+  background: white;
+  border: 2px solid #f0ebe1;
+  padding: 10px 25px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #666;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+}
+
+.btn-refresh:hover {
+  background: #faf8f5;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
+}
+
+/* ページめくり矢印 */
+.page-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  font-size: 1.5em;
+  color: #555;
+  text-decoration: none;
+  z-index: 5;
+  transition: all 0.2s ease;
+}
+
+.page-arrow:hover {
+  background: #faf8f5;
+  transform: translateY(-50%) scale(1.1);
+  color: #eb8428;
+}
+
+.arrow-prev {
+  left: -25px;
+}
+
+.arrow-next {
+  right: -25px;
+}
+
+/* --- 良いね・コメントの追加デザイン --- */
+
+.scrapbook-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px dashed #eee;
+}
+
+/* 良いねボタンを透明な背景にして馴染ませる */
+.like-button-style {
+  background: none;
+  border: 1px solid #f0ebe1;
+  border-radius: 20px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.like-button-style:hover {
+  background: #fff5f8;
+  border-color: #ffb6c1;
+  transform: translateY(-2px);
+}
+
+/* コメントエリア（カード内でコンパクトに表示） */
+.scrapbook-comments {
+  background: rgba(250, 245, 240, 0.7);
+  /* 少し温かみのある背景 */
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 15px;
+  font-size: 0.85em;
+  max-height: 120px;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.comment-input-small {
+  width: 65%;
+  padding: 8px 12px;
+  border: 1px solid #eee;
+  border-radius: 20px;
+  font-size: 0.9em;
+  background: #ffffff;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: border-color 0.2s;
+}
+
+.comment-input-small:focus {
+  outline: none;
+  border-color: #eb8428;
+}
+
+.comment-submit-small {
+  background: #eb8428;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 0.85em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.comment-submit-small:hover {
+  background: #d1701e;
+  transform: translateY(-1px);
 }

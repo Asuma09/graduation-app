@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   # 投稿（Post）に関する標準的なURL（一覧、詳細、作成、編集、更新、削除）をすべて有効化
   resources :posts
   resources :photos
+  resources :secret_messages, only: [ :index, :create ]
+  resource :profile, only: [ :edit, :update ]
 
   post   "like/:id", to: "likes#create", as: "create_like"
   delete "like/:id", to: "likes#destroy", as: "destroy_like"
@@ -21,6 +23,7 @@ Rails.application.routes.draw do
 
   # ログアウトを実行する（DELETE）
   delete "/logout",  to: "sessions#destroy"
+
 
   # -----------------------------------------------
 end

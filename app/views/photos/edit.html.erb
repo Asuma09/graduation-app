@@ -1,49 +1,82 @@
-<h1>写真の情報を編集する</h1>
-
-<% if @photo.errors.any? %>
-  <div style="color: red; border: 1px solid red; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
-    <b>保存できませんでした：</b>
-    <ul>
-      <% @photo.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-
-<%= form_with model: @photo, local: true do |form| %>
+<div class="album-wrapper">
   
-  <%# もしすでに画像があれば、今の画像を小さく表示しておく親切設計！ %>
-  <% if @photo.image.attached? %>
-    <div style="margin-bottom: 10px;">
-      <p>現在の写真：</p>
-      <%= image_tag @photo.image, style: "width: 200px; border-radius: 4px;" %>
-    </div>
-  <% end %>
+  <h2 style="text-align: center; margin-bottom: 20px; color: #333;">📸 写真の情報を編集する</h2>
 
-  <div>
-    <%= form.label :event_date, "撮影日" %><br>
-    <%= form.date_field :event_date %>
+  <div class="post-card" style="margin: 0 auto;">
+    
+    <%= form_with model: @photo, local: true, html: { style: "display: flex; width: 100%; gap: 40px;" } do |form| %>
+      
+      <% if @photo.errors.any? %>
+        <div style="position: absolute; top: 10px; left: 10px; color: red;">入力にエラーがあります</div>
+      <% end %>
+
+      <div class="post-left">
+        <h4 style="margin-top: 0; color: #555;">現在の写真</h4>
+        
+        <label for="photo_image" class="post-preview-label">
+          <% if @photo.image.attached? %>
+            <%= image_tag @photo.image, id: "image-preview", style: "width: 100%; height: 100%; object-fit: cover;" %>
+          <% else %>
+            <div id="preview-placeholder">
+              <span style="font-size: 3em;">📷</span><br>
+              <strong>画像をアップロード</strong><br>
+              <span style="font-size: 0.8em;">または、ここをクリックして画像を選択</span>
+            </div>
+            <img id="image-preview" style="width: 100%; height: 100%; object-fit: cover; display: none; position: absolute; top: 0; left: 0;" />
+          <% end %>
+        </label>
+        
+        <%= form.file_field :image, id: "photo_image", accept: 'image/jpg,image/jpeg,image/png', style: "display: none;", onchange: "previewImage(event)" %>
+      </div>
+
+      <div class="post-right">
+        
+        <div class="auth-form-group">
+          <%= form.label :content, "写真の説明（キャプション）", class: "auth-label" %>
+          <%= form.text_area :content, class: "auth-input", placeholder: "思い出を書き残しましょう...", rows: 3 %>
+        </div>
+
+        <div class="form-row">
+          <div class="form-col">
+            <%= form.label :event_date, "撮影日", class: "auth-label" %>
+            <%= form.date_field :event_date, class: "auth-input" %>
+          </div>
+          <div class="form-col">
+            <label class="auth-label">投稿者</label>
+            <div class="auth-input" style="background: #eee; color: #888;">
+               <%= current_user.nickname || "アスマ" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions" style="margin-top: auto; display: flex; gap: 10px; justify-content: flex-end;">
+          <%= link_to "キャンセル", photos_path, class: "btn-cancel" %>
+          <%= form.submit "更新する", class: "btn-submit" %>
+        </div>
+
+      </div>
+    <% end %>
+
   </div>
-  <br>
+</div>
 
-  <div>
-    <%= form.label :content, "写真の説明（キャプション）" %><br>
-    <%= form.text_area :content, size: "40x3" %>
-  </div>
-  <br>
-
-  <div>
-    <%= form.label :image, "写真を変更する場合はファイルを選択" %><br>
-    <%= form.file_field :image, accept: 'image/jpg,image/jpeg,image/png,image/gif' %>
-  </div>
-  <br>
-
-  <div>
-    <%= form.submit "更新する" %>
-  </div>
-
-<% end %>
-
-<br>
-<%= link_to "一覧に戻る", photos_path %>
+<script>
+  function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function() {
+      const output = document.getElementById('image-preview');
+      if(output) {
+        output.src = reader.result;
+        output.style.display = 'block';
+      }
+      
+      const placeholder = document.getElementById('preview-placeholder');
+      if (placeholder) {
+        placeholder.style.display = 'none';
+      }
+    }
+    if(event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+</script>

@@ -1,47 +1,114 @@
-<h1>みんなの思い出一覧</h1>
-
-<% @posts.each do |post| %>
-  <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
-    <p><strong>投稿者:</strong> <%= post.user.nickname %></p>
-    <p><strong>日付:</strong> <%= post.event_date %></p>
-    <p><strong>内容:</strong> <%= post.content %></p>
-    <div style="margin: 10px 0;">
-      <% if post.liked_by?(current_user) %>
-        <%# すでにいいねしている場合は、色付きハートと「取り消し」の動き %>
-        <%= button_to "❤️ #{post.likes.count}", destroy_like_path(post), method: :delete, style: "background: none; border: 1px solid #ffcccc; border-radius: 15px; padding: 5px 10px; cursor: pointer; color: red;" %>
-      <% else %>
-        <%# まだいいねしていない場合は、白抜きハートと「いいねする」の動き %>
-        <%= button_to "🤍 #{post.likes.count}", create_like_path(post), method: :post, style: "background: none; border: 1px solid #ccc; border-radius: 15px; padding: 5px 10px; cursor: pointer; color: #666;" %>
-      <% end %>
-    </div>
-    <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #eee;">
-      
-      <%# --- 今まで書かれたコメントを一覧表示 --- %>
-      <% post.comments.each do |comment| %>
-        <p style="font-size: 0.85em; margin: 2px 0;">
-          <strong><%= comment.user.nickname %>:</strong> <%= comment.content %>
-        </p>
-      <% end %>
-
-      <%# --- 新しいコメントを書く入力枠 --- %>
-      <div style="margin-top: 10px;">
-        <%= form_with url: create_comment_path(post), local: true do |form| %>
-          <%= form.text_field :content, placeholder: "コメントを書く...", style: "width: 70%; padding: 5px;" %>
-          <%= form.submit "送信", style: "padding: 5px 10px;" %>
-        <% end %>
-      </div>
-      
-    </div>
+<div class="history-wrapper">
+  
+  <div style="max-width: 1150px; margin: 0 auto 30px; display: flex; justify-content: space-between; align-items: center;">
+    <h1 style="margin: 0; font-family: 'Hiragino Kaku Gothic Pro', sans-serif; font-weight: bold; color: #333;">思い出の歴史</h1>
     
-    <hr>
-   <% if post.user == current_user %>
-      <hr style="margin: 10px 0;">
-      <div style="font-size: 0.9em;">
-        <%= link_to "編集する", edit_post_path(post) %> |
-        <%= link_to "削除する", post_path(post), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, style: "color: red;" %>
+    <div style="display: flex; gap: 15px; align-items: center;">
+      <div style="font-size: 1.4em; color: #333; font-weight: bold;">2025年前半</div>
+    </div>
+  </div>
+
+  <div class="scrapbook-container">
+    
+    <a href="#" class="page-arrow arrow-prev">＜</a>
+    <a href="#" class="page-arrow arrow-next">＞</a>
+
+    <div style="text-align: right; margin-bottom: 20px;">
+      <span class="btn-white" style="font-size: 0.9em; padding: 5px 20px;">並び替え</span>
+    </div>
+
+    <div class="scrapbook-grid">
+      <% @posts.each_with_index do |post, index| %>
+        <% 
+          card_class = ""
+          case index % 5
+          when 1 then card_class = "card-tall"
+          when 3 then card_class = "card-wide"
+          end
+        %>
+
+        <div class="scrapbook-card <%= card_class %>">
+          <div style="flex-grow: 1;">
+            <h4 style="margin: 0 0 10px; border-bottom: 2px solid #f0ebe1; padding-bottom: 5px; color: #666;">
+              <%= index % 2 == 0 ? "文章" : "思い出" %>
+            </h4>
+            <p style="margin: 0; font-size: 0.95em; line-height: 1.7; color: #444; white-space: pre-wrap;">
+              <%= post.content %>
+            </p>
+
+            <div class="scrapbook-comments">
+              <% post.comments.each do |comment| %>
+                <p style="margin: 2px 0;">
+                  <strong><%= comment.user.nickname || comment.user.email.split('@').first %>:</strong> 
+                  <%= comment.content %>
+                </p>
+              <% end %>
+              
+              <div style="margin-top: 8px;">
+                <%= form_with url: create_comment_path(post), local: true do |form| %>
+                  <%= form.text_field :content, placeholder: "返信...", class: "comment-input-small" %>
+                  <%= form.submit "送信", class: "comment-submit-small" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <div class="scrapbook-actions">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <% if post.liked_by?(current_user) %>
+                <%= button_to "❤️ #{post.likes.count}", destroy_like_path(post), method: :delete, class: "like-button-style", style: "color: #ff6b6b;" %>
+              <% else %>
+                <%= button_to "🤍 #{post.likes.count}", create_like_path(post), method: :post, class: "like-button-style", style: "color: #999;" %>
+              <% end %>
+
+              <% if post.user == current_user %>
+                <%= link_to "✏️", edit_post_path(post), style: "font-size: 0.9em; text-decoration: none; color: #888; margin-left: 5px;" %>
+                <%= button_to "🗑️", post_path(post), method: :delete, form: { data: { turbo_confirm: "本当に削除しますか？" } }, style: "background: none; border: none; font-size: 0.9em; cursor: pointer; padding: 0;" %>
+              <% end %>
+            </div>
+            
+            <div style="text-align: right;">
+              <small style="display: block; color: #aaa; margin-bottom: 2px;">by <%= post.user.nickname || "アスマ" %></small>
+              <span class="item-date"><%= post.created_at.strftime("%Y年%m月") %></span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%= link_to posts_path, class: "btn-refresh" do %>
+      <span>↻</span> 更新
+    <% end %>
+
+    <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: #888; font-weight: bold;">
+      (1) ページ
+    </div>
+
+  </div>
+
+  <%# ▼▼▼ 秘密のサプライズ機能 ▼▼▼ %>
+  <div style="margin-top: 40px; border-top: 2px dashed #ccc; padding-top: 20px;">
+    <% if current_user.custom_id.start_with?("21", "22") %>
+      <%# 🌸 卒業生（21, 22始まり）が見る画面：秘密の部屋への入り口 %>
+      <div style="padding: 20px; background-color: #ffe4e1; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h3 style="color: #ff1493;">🗝️ 卒業生の皆様へ</h3>
+        <p>在校生から、秘密のサプライズメッセージが届いています！</p>
+        <%= link_to "秘密の部屋に入る ✨", secret_messages_path, style: "display: inline-block; padding: 12px 24px; background-color: #ff69b4; color: white; text-decoration: none; border-radius: 25px; font-weight: bold; font-size: 1.1rem; margin-top: 10px;" %>
+      </div>
+
+    <% else %>
+      <%# 🤫 在校生（23, 24〜始まり）が見る画面：メッセージ送信フォーム %>
+      <div style="padding: 20px; background-color: #e0ffff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h3 style="color: #008b8b;">🤫 卒業生へのサプライズメッセージを送ろう！</h3>
+        <p style="font-size: 0.9em; color: #555;">※このメッセージは卒業生にしか見えません。感謝の気持ちをこっそり伝えよう！</p>
+
+        <%= form_with(model: SecretMessage.new, local: true) do |f| %>
+          <%= f.text_area :content, rows: 3, style: "width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;", placeholder: "先輩、今まで本当にありがとうございました！" %><br>
+          <%= f.submit "こっそり送信する 💌", style: "margin-top: 10px; padding: 10px 20px; background-color: #00ced1; color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: bold;" %>
+        <% end %>
       </div>
     <% end %>
   </div>
-<% end %>
-<%= link_to "新しい思い出を投稿する", new_post_path %>
-<br>
+  <%# ▲▲▲ サプライズ機能ここまで ▲▲▲ %>
+
+</div>

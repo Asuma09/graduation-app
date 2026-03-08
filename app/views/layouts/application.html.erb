@@ -24,24 +24,58 @@
 
   <body>
     <%# --- ここからヘッダーを追加 --- %>
-    <header style="background-color: #f0f0f0; padding: 10px; margin-bottom: 20px;">
-      
-      <nav style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #ccc;">
-        <%= link_to "📝 思い出一覧", posts_path, style: "margin-right: 15px; font-weight: bold; text-decoration: none;" %>
-        <%= link_to "📸 フォトアルバム", photos_path, style: "margin-right: 15px; font-weight: bold; text-decoration: none;" %>
-      </nav>
-      <% if current_user %>
-        <%# ログインしている時：ニックネームとログアウトボタンを表示 %>
-        <span style="font-weight: bold; color: <%= current_user.theme_color %>;">
-          <%= current_user.nickname %>さん、こんにちは！
-        </span>
-        <%# button_toを使うと、安全なログアウト処理(DELETE)を簡単に作れます %>
-        <%= button_to 'ログアウト', logout_path, method: :delete, style: "display: inline-block; margin-left: 10px;" %>
-      <% else %>
-        <%# ログインしていない時：登録とログインへのリンクを表示 %>
-        <%= link_to '新規登録', signup_path %> |
-        <%= link_to 'ログイン', login_path %>
-      <% end %>
+    <header style="padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 100;">
+      <!-- 左側：ロゴやタイトルリンク -->
+      <div>
+        <%= link_to posts_path, style: "text-decoration: none; color: #333; font-weight: bold; font-size: 1.4em; display: flex; align-items: center; gap: 10px;" do %>
+          <span style="font-size: 1.2em;">🌸</span> Memory App
+        <% end %>
+      </div>
+
+      <!-- 右側：ナビゲーション・メニュー -->
+      <div style="display: flex; gap: 20px; align-items: center;">
+        
+        <% if current_user %>
+          <%# ログインしている時：メニューボタンとドロップダウン %>
+          <div class="menu-container">
+            <button id="menu-toggle-btn" class="btn-white" style="cursor: pointer; display: flex; align-items: center; gap: 5px;">
+              メニュー ≡
+            </button>
+            
+            <%# ポップアップするメニュー部分 %>
+            <div id="dropdown-menu" class="dropdown-popup">
+              <div class="dropdown-header">
+                <div class="dropdown-avatar" style="background: <%= current_user.theme_color || '#f4b6c2' %>; color: white;">
+                  <%= current_user.nickname&.first || "U" %>
+                </div>
+                <div class="dropdown-user-info">
+                  <span class="user-id">ID: <%= current_user.custom_id %></span>
+                  <span class="user-name"><%= current_user.nickname || "アスマ" %></span>
+                </div>
+              </div>
+              
+              <hr class="dropdown-divider">
+              
+              <%= link_to "👤 プロフィール設定", edit_profile_path, class: "dropdown-item" %>
+              <%= link_to "📝 思い出一覧", posts_path, class: "dropdown-item" %>
+              <%= link_to "➕ 思い出を追加", new_post_path, class: "dropdown-item" %>
+              <%= link_to "📸 フォトアルバム", photos_path, class: "dropdown-item" %>
+              <%= link_to "➕ アルバムを追加", new_photo_path, class: "dropdown-item" %>
+              
+              <hr class="dropdown-divider">
+              
+              <%= button_to '🚪 ログアウト', logout_path, method: :delete, class: "dropdown-item", style: "width: 100%; text-align: left; background: none; border: none; cursor: pointer; color: #ff6b6b;" %>
+            </div>
+          </div>
+          
+        <% else %>
+          <%# ログインしていない時：登録とログインへのリンクを表示 %>
+          <div style="display: flex; gap: 10px;">
+            <%= link_to '新規登録', signup_path, class: "btn-white", style: "text-decoration: none;" %>
+            <%= link_to 'ログイン', login_path, class: "btn-orange", style: "text-decoration: none;" %>
+          </div>
+        <% end %>
+      </div>
     </header>
     <%# --- ヘッダーここまで --- %>
 
@@ -64,5 +98,28 @@
     <%# ここに各画面（新規登録やログイン画面など）の中身が差し込まれます %>
     <%= yield %>
 
+    <%# ページ遷移時にもメニューが開閉できるよう、イベントをドキュメント全体で管理する形式に変更 %>
+    <script data-turbo-eval="false">
+      document.addEventListener('click', function(event) {
+        const toggleBtn = document.getElementById('menu-toggle-btn');
+        const dropdown = document.getElementById('dropdown-menu');
+
+        // メニュー要素が存在しない画面では何もしない
+        if (!toggleBtn || !dropdown) return;
+
+        // メニューボタン自体がクリックされたか判定
+        if (toggleBtn.contains(event.target) || toggleBtn === event.target) {
+          event.preventDefault(); // デフォルトの動作を防止
+          event.stopPropagation(); // 他のクリックイベントを止める
+          dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+          return;
+        }
+
+        // メニューの外側がクリックされたら閉じる
+        if (!dropdown.contains(event.target) && dropdown.style.display === 'block') {
+          dropdown.style.display = 'none';
+        }
+      });
+    </script>
   </body>
 </html>
