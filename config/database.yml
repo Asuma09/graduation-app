@@ -26,8 +26,8 @@ test:
 production:
   primary:
     <<: *default
-    # Renderで用意した永続ディスク(/var/data)に保存する設定
-    database: <%= ENV['DATABASE_URL'] ? ENV['DATABASE_URL'].sub('sqlite3://', '') : 'storage/production.sqlite3' %>
+    adapter: postgresql
+    url: <%= ENV['DATABASE_URL'] %>
   cache:
     <<: *default
     database: storage/production_cache.sqlite3

@@ -1,4 +1,8 @@
-databases: []
+databases:
+  - name: memory-app-db
+    databaseName: memory_app_production
+    user: memory_user
+    plan: free
 
 services:
   - type: web
@@ -8,10 +12,8 @@ services:
     startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
       - key: DATABASE_URL
-        value: sqlite3:///var/data/production.sqlite3
+        fromDatabase:
+          name: memory-app-db
+          property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
-    disk:
-      name: sqlite-data
-      mountPath: /var/data
-      sizeGB: 1
