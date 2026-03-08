@@ -26,6 +26,7 @@ test:
 # Store production database in the storage/ directory...
 production:
   primary: &production_base
+    adapter: postgresql
     url: <%= ENV['DATABASE_URL'] %>
   cache:
     <<: *production_base
