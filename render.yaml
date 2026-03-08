@@ -1,0 +1,17 @@
+databases: []
+
+services:
+  - type: web
+    name: memory-app
+    env: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite3:///var/data/production.sqlite3
+      - key: RAILS_MASTER_KEY
+        sync: false
+    disk:
+      name: sqlite-data
+      mountPath: /var/data
+      sizeGB: 1
