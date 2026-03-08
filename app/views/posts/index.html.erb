@@ -7,8 +7,13 @@
     <p><strong>内容:</strong> <%= post.content %></p>
     
     <hr>
-    <%= link_to "編集する", edit_post_path(post) %> |
-    <%= link_to "削除する", post_path(post), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, style: "color: red;" %>
+   <% if post.user == current_user %>
+      <hr style="margin: 10px 0;">
+      <div style="font-size: 0.9em;">
+        <%= link_to "編集する", edit_post_path(post) %> |
+        <%= link_to "削除する", post_path(post), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, style: "color: red;" %>
+      </div>
+    <% end %>
   </div>
 <% end %>
 <%= link_to "新しい思い出を投稿する", new_post_path %>
