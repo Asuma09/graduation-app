@@ -1,54 +1,46 @@
-<h1>新規アカウント登録</h1>
+<div class="auth-wrapper">
+  <div class="auth-card">
+    
+    <div class="auth-left">
+      <%= image_tag "welcome_illustration.jpg", class: "auth-illustration" %>
+      <h3 style="color: #555;">コミュニティへようこそ</h3>
+    </div>
 
-<%# エラーメッセージの表示エリア %>
-<% if @user.errors.any? %>
-  <div style="color: red; border: 1px solid red; padding: 10px; margin-bottom: 20px;">
-    <h3>入力内容にエラーがあります：</h3>
-    <ul>
-    <% @user.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-    <% end %>
-    </ul>
+    <div class="auth-right">
+      
+      <div class="auth-toggle-container">
+        <div class="auth-toggle">
+          <%= link_to "新規登録", signup_path, class: "active" %>
+          <%= link_to "ログイン", login_path %>
+        </div>
+      </div>
+
+     <%= form_with model: @user, url: signup_path, local: true do |f| %>
+        
+        <div class="auth-form-group">
+          <%= f.label :nickname, "表示名（ニックネーム）", class: "auth-label" %>
+          <%= f.text_field :nickname, class: "auth-input", placeholder: "ニックネームを入力" %>
+        </div>
+
+        <div class="auth-form-group">
+          <%= f.label :email, "ユーザーID / メールアドレス", class: "auth-label" %>
+          <%= f.email_field :email, class: "auth-input", placeholder: "IDを入力" %>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <div class="auth-form-group" style="flex: 1;">
+            <%= f.label :password, "パスワード", class: "auth-label" %>
+            <%= f.password_field :password, class: "auth-input" %>
+          </div>
+          <div class="auth-form-group" style="flex: 1;">
+            <%= f.label :password_confirmation, "パスワード（確認）", class: "auth-label" %>
+            <%= f.password_field :password_confirmation, class: "auth-input" %>
+          </div>
+        </div>
+
+        <%= f.submit "新規登録", class: "auth-submit-btn" %>
+      <% end %>
+
+    </div>
   </div>
-<% end %>
-
-<%# 登録フォーム本体 %>
-<%= form_with(model: @user, url: signup_path, local: true) do |f| %>
-  <div style="margin-bottom: 10px;">
-    <%= f.label :custom_id, "学籍番号（例：24l1234）" %><br>
-    <%= f.text_field :custom_id %>
-  </div>
-
-  <div style="margin-bottom: 10px;">
-    <%= f.label :email, "メールアドレス" %><br>
-    <%= f.email_field :email %>
-  </div>
-
-  <div style="margin-bottom: 10px;">
-    <%= f.label :nickname, "ニックネーム" %><br>
-    <%= f.text_field :nickname %>
-  </div>
-
-  <div style="margin-bottom: 10px;">
-    <%= f.label :theme_color, "テーマカラー（枠の色）" %><br>
-    <%# color_fieldを使うと、ブラウザ標準のカラーピッカー（色選択画面）が出ます！ %>
-    <%= f.color_field :theme_color, value: "#000000" %>
-  </div>
-
-  <div style="margin-bottom: 10px;">
-    <%= f.label :password, "パスワード" %><br>
-    <%= f.password_field :password %>
-  </div>
-
-  <div style="margin-bottom: 10px;">
-    <%= f.label :password_confirmation, "パスワード（確認用）" %><br>
-    <%= f.password_field :password_confirmation %>
-  </div>
-
-  <div>
-    <%= f.submit "登録する" %>
-  </div>
-<% end %>
-
-<br>
-<%= link_to "ログイン画面はこちら", login_path %>
+</div>
