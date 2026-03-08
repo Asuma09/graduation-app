@@ -16,11 +16,13 @@
       <p><strong>日付:</strong> <%= photo.event_date %></p>
       <p><%= photo.content %></p>
       <p style="font-size: 0.8em; color: #666;">投稿者: <%= photo.user.nickname %></p>
-      <hr style="margin: 10px 0;">
-      <div style="font-size: 0.9em;">
-        <%= link_to "編集する", edit_photo_path(photo) %> |
-        <%= link_to "削除する", photo_path(photo), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, style: "color: red;" %>
-      </div>
+      <% if photo.user == current_user %>
+        <hr style="margin: 10px 0;">
+        <div style="font-size: 0.9em;">
+          <%= link_to "編集する", edit_photo_path(photo) %> |
+          <%= link_to "削除する", photo_path(photo), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, style: "color: red;" %>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </div>

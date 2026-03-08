@@ -1,4 +1,5 @@
 class PhotosController < ApplicationController
+  before_action :ensure_correct_user, only: [ :edit, :update, :destroy ]
   def index
     @photos = Photo.all.order(created_at: :desc)
   end
@@ -45,5 +46,12 @@ class PhotosController < ApplicationController
   def photo_params
     # image を許可するのがポイントです！
     params.require(:photo).permit(:event_date, :content, :image)
+  end
+
+  def ensure_correct_user
+    @photo = Photo.find(params[:id])
+    if @photo.user != current_user
+      redirect_to photos_path, alert: "他の人の写真は編集・削除できません！"
+    end
   end
 end

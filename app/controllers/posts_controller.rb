@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :ensure_correct_user, only: [ :edit, :update, :destroy ]
   def index
     @posts = Post.all.order(created_at: :desc)
   end
@@ -53,5 +54,13 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:content, :event_date)
+  end
+
+  def ensure_correct_user
+    @post = Post.find(params[:id])
+    if @post.user != current_user
+      # もしログイン中のユーザーと投稿者が違ったら、一覧画面に強制送還！
+      redirect_to posts_path, alert: "他の人の思い出は編集・削除できません！"
+    end
   end
 end
